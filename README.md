@@ -1,6 +1,6 @@
 # Student Performance Prediction System
 
-A full-stack web application for predicting student final marks based on assignments, quizzes, and midterm scores. Built with Node.js, React, MongoDB, and Docker.
+A full-stack web application for predicting student final marks based on assignments, quizzes, and midterm scores. Built with Node.js, React, and MongoDB.
 
 ## Features
 
@@ -10,14 +10,13 @@ A full-stack web application for predicting student final marks based on assignm
 - Teacher view for class performance
 - Responsive UI with Tailwind CSS
 
-## Local Development
+## Quick Start (Simplest Method)
 
 ### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (local or Atlas)
 
-- Docker and Docker Compose
-- Node.js (for local frontend dev)
-
-### Setup
+### Running the Application
 
 1. Clone the repository:
    ```bash
@@ -25,20 +24,45 @@ A full-stack web application for predicting student final marks based on assignm
    cd student-prediction-system
    ```
 
-2. Copy environment files:
+2. Set up environment:
    ```bash
    cp backend/.env.example backend/.env
-   cp .env.compose.example .env
    ```
+   Update `backend/.env` with your MongoDB URI (for local MongoDB: `mongodb://localhost:27017/student_prediction`)
 
-3. Update `backend/.env` with your MongoDB URI (for local, use `mongodb://mongo:27017/student_prediction`)
-
-4. Run with Docker:
+3. Start the services:
    ```bash
-   docker-compose up --build
+   ./start-dev.sh
    ```
+   This will automatically install dependencies and start both backend (port 5000) and frontend (port 3000).
 
-5. Access the app at `http://localhost:3000`
+4. Access the app at `http://localhost:3000`
+
+### Stopping the Services
+```bash
+kill $(cat logs/backend.pid) $(cat logs/frontend.pid)
+```
+
+### Manual Start/Stop (Alternative)
+
+If you prefer manual control:
+
+**Start Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**Start Frontend (in another terminal):**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+**Stop Services:**
+Find and kill the Node.js processes, or use the PIDs from `logs/` folder.
 
 ## Deployment
 
@@ -88,7 +112,7 @@ In `backend/app.js`, ensure CORS allows your frontend domain.
 
 - **Backend**: Node.js, Express, MongoDB, JWT
 - **Frontend**: React, Vite, Tailwind CSS, Framer Motion
-- **Deployment**: Docker, Render, Vercel, MongoDB Atlas
+- **Deployment**: Render, Vercel, MongoDB Atlas
 
 ## License
 
