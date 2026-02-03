@@ -30,6 +30,7 @@ export default function InputMarks(){
   const [quizzes, setQuizzes] = useState([{ score: '', total: '' }])
   const [presentations, setPresentations] = useState([])
   const [project, setProject] = useState({ score: '', total: '' })
+  const [participation, setParticipation] = useState([])
   const [midterm, setMidterm] = useState({ score: '', total: '' })
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
@@ -53,6 +54,8 @@ export default function InputMarks(){
       const payload = {
         assignmentMarks: toPercent(assignments),
         quizMarks: toPercent(quizzes),
+        presentationMarks: toPercent(presentations),
+        participationMarks: toPercent(participation),
         midtermMarks: midtermPercent !== null ? midtermPercent : 0,
         projectPercent: projectPercent !== null ? projectPercent : undefined,
         subject,
@@ -107,6 +110,11 @@ export default function InputMarks(){
                   <FieldList label="Presentations" values={presentations} setValues={setPresentations} />
                   <div className="text-xs text-gray-600 mt-1">Total Obtained: {presentationsTotal} / {presentationsMax} — Avg %: {avgPercent(presentations)}%</div>
                 </div>
+
+                <div>
+                  <FieldList label="Class Participation" values={participation} setValues={setParticipation} />
+                  <div className="text-xs text-gray-600 mt-1">Total Obtained: {participation.map(v=>Number(v.score)).filter(n=>!isNaN(n)).reduce((s,n)=>s+n,0)} / {participation.map(v=>Number(v.total)).filter(n=>!isNaN(n)).reduce((s,n)=>s+n,0)} — Avg %: {avgPercent(participation)}%</div>
+                </div>
               </div>
 
               <div>
@@ -136,6 +144,7 @@ export default function InputMarks(){
                 <div>
                   <div><strong>Performance Score:</strong> {result.performanceScore}</div>
                   <div><strong>Predicted Final:</strong> {result.predictedMarks}</div>
+                  <div><strong>Predicted Grade:</strong> {result.predictedGrade} {result.predictedGradePoint !== undefined ? `(${Number(result.predictedGradePoint).toFixed(2)})` : ''}</div>
                   <div><strong>Level:</strong> {result.level}</div>
                   <div className="mt-2"><strong>Suggestions:</strong>
                     <ul className="ml-5 list-disc">{result.suggestions.map((s,i)=>(<li key={i}>{s}</li>))}</ul>

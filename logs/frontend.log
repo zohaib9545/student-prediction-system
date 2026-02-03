@@ -1,0 +1,22 @@
+
+> student-prediction-frontend@1.0.0 dev
+> vite
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+  VITE v5.4.21  ready in 555 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+5:25:16 PM [vite] hmr update /src/pages/InputMarks.jsx, /src/styles/tailwind.css
+5:25:32 PM [vite] hmr update /src/pages/InputMarks.jsx, /src/styles/tailwind.css
+5:34:43 PM [vite] hmr update /src/pages/InputMarks.jsx, /src/styles/tailwind.css
+5:34:54 PM [vite] hmr update /src/pages/InputMarks.jsx, /src/styles/tailwind.css
+5:36:30 PM [vite] page reload src/pages/Dashboard.jsx
+5:36:30 PM [vite] hmr update /src/pages/HistoryPage.jsx, /src/styles/tailwind.css
+5:36:30 PM [vite] hmr update /src/pages/TeacherDashboard.jsx, /src/styles/tailwind.css
+5:36:30 PM [vite] hmr update /src/pages/Overview.jsx, /src/styles/tailwind.css
+5:36:33 PM [vite] hmr update /src/pages/Overview.jsx, /src/styles/tailwind.css
+5:36:33 PM [vite] page reload src/pages/Dashboard.jsx
+5:36:33 PM [vite] hmr update /src/pages/HistoryPage.jsx, /src/styles/tailwind.css
+5:36:33 PM [vite] hmr update /src/pages/TeacherDashboard.jsx, /src/styles/tailwind.css

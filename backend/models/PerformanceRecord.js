@@ -7,9 +7,13 @@ const performanceSchema = new mongoose.Schema(
     subject: { type: String, required: true },
     assignmentAvg: { type: Number, required: true },
     quizAvg: { type: Number, required: true },
+    projectPresentationAvg: { type: Number, default: 0 },
+    participationAvg: { type: Number, default: 0 },
     midtermMarks: { type: Number },
     actualMarks: { type: Number }, // actual final/subject mark when available
     predictedMarks: { type: Number, required: true },
+    predictedGrade: { type: String },
+    predictedGradePoint: { type: Number },
     performanceScore: { type: Number, required: true },
     level: { type: String, enum: ['High', 'Medium', 'Low'], required: true },
     suggestions: { type: [String], default: [] },

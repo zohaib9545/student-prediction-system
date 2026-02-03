@@ -31,6 +31,7 @@ export default function Overview(){
             <div className="p-6 rounded-lg shadow-lg bg-gradient-to-r from-indigo-600 to-indigo-400 text-white flex flex-col justify-center items-start">
               <div className="text-sm opacity-90">Latest Predicted</div>
               <div className="text-3xl font-bold">{latest ? latest.predictedMarks : '--'}</div>
+              <div className="text-sm mt-1">{latest ? `${latest.predictedGrade || ''} ${latest.predictedGradePoint !== undefined ? `(${Number(latest.predictedGradePoint).toFixed(2)})` : ''}` : ''}</div>
               <div className="text-xs opacity-80 mt-1">Predicted final marks</div>
             </div>
 
@@ -66,6 +67,7 @@ export default function Overview(){
                   <div className="flex-1">
                     <div className="text-sm text-gray-500">Predicted Final</div>
                     <div className="text-2xl font-bold">{latest ? latest.predictedMarks : '--'}</div>
+                    <div className="text-sm text-gray-500">{latest ? `${latest.predictedGrade || ''} ${latest.predictedGradePoint !== undefined ? `(${Number(latest.predictedGradePoint).toFixed(2)})` : ''}` : ''}</div>
                     <div className="w-full h-2 bg-gray-200 rounded mt-2">
                       <div className="h-2 bg-amber-500 rounded" style={{ width: `${latest ? Math.min(100, latest.predictedMarks) : 0}%` }} />
                     </div>

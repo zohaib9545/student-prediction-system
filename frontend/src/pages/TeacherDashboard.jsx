@@ -73,6 +73,7 @@ export default function TeacherDashboard(){
                         <td className="p-2">{r.subject}</td>
                         <td className="p-2">{typeof r.actualMarks === 'number' ? r.actualMarks : '—'}</td>
                         <td className="p-2">{typeof r.predictedMarks === 'number' ? r.predictedMarks : '—'}</td>
+                        <td className="p-2">{r.predictedGrade ? `${r.predictedGrade} ${r.predictedGradePoint !== undefined ? `(${Number(r.predictedGradePoint).toFixed(2)})` : ''}` : '—'}</td>
                         <td className="p-2">{r.difference === null ? '—' : r.difference}</td>
                         <td className="p-2 text-sm text-gray-700">{(r.suggestions||[]).slice(0,3).map((s,idx)=>(<div key={idx}>- {s}</div>))}</td>
                       </tr>

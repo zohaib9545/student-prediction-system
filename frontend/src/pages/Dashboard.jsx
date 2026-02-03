@@ -62,7 +62,7 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <StatCard title="Performance Score" value={record ? record.performanceScore : '--'} subtitle="Weighted score" variant="indigo" />
-            <StatCard title="Predicted Final" value={record ? record.predictedMarks : '--'} subtitle="Out of 100" variant="amber" />
+            <StatCard title="Predicted Final" value={record ? record.predictedMarks : '--'} subtitle={record ? `Out of 100 — ${record.predictedGrade || '--'} ${record.predictedGradePoint !== undefined ? `(${Number(record.predictedGradePoint).toFixed(2)})` : ''}` : 'Out of 100'} variant="amber" />
             <StatCard title="Level" value={record ? record.level : 'N/A'} subtitle={record ? record.suggestions[0] : ''} variant="teal" />
           </div>
 

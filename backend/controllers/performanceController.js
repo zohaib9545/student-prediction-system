@@ -1,23 +1,27 @@
 const PerformanceRecord = require('../models/PerformanceRecord');
 const { calculatePerformance, generateSuggestions } = require('../utils/calc');
 
-function validateMarks({ assignmentMarks, quizMarks, midtermMarks }) {
-  if (!Array.isArray(assignmentMarks) || assignmentMarks.some(m => typeof m !== 'number' || m < 0 || m > 100)) return false;
-  if (!Array.isArray(quizMarks) || quizMarks.some(m => typeof m !== 'number' || m < 0 || m > 100)) return false;
+function validateMarks({ assignmentMarks, quizMarks, presentationMarks, participationMarks, projectPercent, midtermMarks }) {
+  const markArrayValid = (arr) => Array.isArray(arr) && arr.every(m => typeof m === 'number' && m >= 0 && m <= 100);
+  if (!markArrayValid(assignmentMarks)) return false;
+  if (!markArrayValid(quizMarks)) return false;
+  if (presentationMarks !== undefined && !markArrayValid(presentationMarks)) return false;
+  if (participationMarks !== undefined && !markArrayValid(participationMarks)) return false;
+  if (projectPercent !== undefined && (typeof projectPercent !== 'number' || projectPercent < 0 || projectPercent > 100)) return false;
   if (typeof midtermMarks !== 'number' || midtermMarks < 0 || midtermMarks > 100) return false;
   return true;
 }
 
 const submitPerformance = async (req, res) => {
   try {
-    const { assignmentMarks, quizMarks, midtermMarks, subject, actualMarks } = req.body;
+    const { assignmentMarks, quizMarks, presentationMarks, participationMarks, projectPercent, midtermMarks, subject, actualMarks } = req.body;
     if (!subject) return res.status(400).json({ message: 'Subject is required' });
-    if (!validateMarks({ assignmentMarks, quizMarks, midtermMarks })) {
+    if (!validateMarks({ assignmentMarks, quizMarks, presentationMarks, participationMarks, projectPercent, midtermMarks })) {
       return res.status(400).json({ message: 'Invalid academic data. Marks must be numbers 0-100.' });
     }
 
-    const calc = calculatePerformance({ assignmentMarks, quizMarks, midtermMarks });
-    const suggestions = generateSuggestions({ assignmentAvg: calc.assignmentAvg, quizAvg: calc.quizAvg, midtermMarks, subject });
+    const calc = calculatePerformance({ assignmentMarks, quizMarks, presentationMarks, projectPercent, participationMarks, midtermMarks });
+    const suggestions = generateSuggestions({ assignmentAvg: calc.assignmentAvg, quizAvg: calc.quizAvg, midtermMarks, projectPresentationAvg: calc.projectPresentationAvg, participationAvg: calc.participationAvg, subject });
 
     const record = await PerformanceRecord.create({
       studentId: req.user._id,
@@ -25,10 +29,14 @@ const submitPerformance = async (req, res) => {
       subject,
       assignmentAvg: calc.assignmentAvg,
       quizAvg: calc.quizAvg,
+      projectPresentationAvg: calc.projectPresentationAvg,
+      participationAvg: calc.participationAvg,
       midtermMarks: midtermMarks,
       actualMarks: typeof actualMarks === 'number' ? actualMarks : undefined,
       performanceScore: calc.performanceScore,
       predictedMarks: calc.predictedFinal,
+      predictedGrade: calc.predictedGrade,
+      predictedGradePoint: calc.predictedGradePoint,
       level: calc.level,
       suggestions,
       teacher: req.user.role === 'teacher' ? req.user._id : undefined,
@@ -57,6 +65,8 @@ const analyticsData = async (req, res) => {
       date: r.createdAt.toISOString(),
       assignmentAvg: r.assignmentAvg,
       quizAvg: r.quizAvg,
+      projectPresentationAvg: r.projectPresentationAvg || 0,
+      participationAvg: r.participationAvg || 0,
       midtermMarks: r.midtermMarks || 0,
       performanceScore: r.performanceScore,
       predictedMarks: r.predictedMarks,
@@ -94,6 +104,8 @@ const teacherResults = async (req, res) => {
       class: r.class,
       actualMarks: r.actualMarks,
       predictedMarks: r.predictedMarks,
+      predictedGrade: r.predictedGrade,
+      predictedGradePoint: r.predictedGradePoint,
       difference: typeof r.actualMarks === 'number' && typeof r.predictedMarks === 'number' ? Number((r.actualMarks - r.predictedMarks).toFixed(2)) : null,
       suggestions: r.suggestions || [],
     }));

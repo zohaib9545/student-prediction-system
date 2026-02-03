@@ -25,6 +25,7 @@ export default function HistoryPage(){
                   </div>
                   <div className="text-right">
                       <div className="text-lg font-bold">{r.predictedMarks}</div>
+                      <div className="text-sm">{r.predictedGrade ? `${r.predictedGrade} ${r.predictedGradePoint !== undefined ? `(${Number(r.predictedGradePoint).toFixed(2)})` : ''}` : ''}</div>
                     <div className="text-xs text-gray-500">Predicted Final</div>
                   </div>
                 </div>
